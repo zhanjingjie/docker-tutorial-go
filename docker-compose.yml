@@ -1,0 +1,26 @@
+# Command to run: docker-compose up
+
+version: '3.7'
+
+services:
+  docker-tutorial:
+    container_name: docker-tutorial
+    build: .
+    command: go run main.go
+    volumes:
+      - .:/go/src/app
+    working_dir: /go/src/app
+    ports:
+      - "3001:3001"
+    depends_on:
+      - redis
+    environment:
+      PORT: 3001
+      NAME: "bad boy"
+      REDIS_CON_TYPE: "tcp"
+      REDIS_CONNECTION: "redis:6379"
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
